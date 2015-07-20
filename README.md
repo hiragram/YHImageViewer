@@ -10,6 +10,10 @@ Minimum features are available. It is still under development.
 
 Issues and PRs are welcome :)
 
+## Screenshot
+
+![Screenshot](https://raw.githubusercontent.com/wiki/hiragram/YHImageViewer/images/screenshot.gif)
+
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
