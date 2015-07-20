@@ -8,17 +8,17 @@
 
 import UIKit
 
-class YHImageViewer: NSObject {
+public class YHImageViewer: NSObject {
 
-    var window:UIWindow!
-    var backgroundView:UIView!
-    var imageView:UIImageView!
-    var startFrame:CGRect!
+    private var window:UIWindow!
+    private var backgroundView:UIView!
+    private var imageView:UIImageView!
+    private var startFrame:CGRect!
     
-    var backgroundColor:UIColor?
-    var fadeAnimationDuration:NSTimeInterval = 0.15
+    public var backgroundColor:UIColor?
+    public var fadeAnimationDuration:NSTimeInterval = 0.15
     
-    func show(targetImageView:UIImageView) {
+    public func show(targetImageView:UIImageView) {
         
         // Create UIWindow
         let window = UIWindow()
