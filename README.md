@@ -1,15 +1,32 @@
 # YHImageViewer
 
-[![CI Status](http://img.shields.io/travis/yuyahirayama/YHImageViewer.svg?style=flat)](https://travis-ci.org/yuyahirayama/YHImageViewer)
 [![Version](https://img.shields.io/cocoapods/v/YHImageViewer.svg?style=flat)](http://cocoapods.org/pods/YHImageViewer)
 [![License](https://img.shields.io/cocoapods/l/YHImageViewer.svg?style=flat)](http://cocoapods.org/pods/YHImageViewer)
 [![Platform](https://img.shields.io/cocoapods/p/YHImageViewer.svg?style=flat)](http://cocoapods.org/pods/YHImageViewer)
+
+YHImageViewer provides a simple way to show an image on fullscreen.
+
+Minimum features are available. It is still under development.
+
+Issues and PRs are welcome :)
 
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+In your ViewController class:
+
+```swift
+func imageTapped(recognizer:UITapGestureRecognizer) {
+    let imageViewer = YHImageViewer()
+    imageViewer.backgroundColor = UIColor.blackColor()
+    self.imageViewer = imageViewer
+    // ^- This line is required. 
+    // If imageViewer is referenced by nothing, 
+    // it will be released immediately and window will not appear.
+    imageViewer.show(sampleImageView)
+}
+```
 
 ## Installation
 
@@ -22,7 +39,9 @@ pod "YHImageViewer"
 
 ## Author
 
-yuyahirayama, y@yura.me
+Yuya Hirayama / [@hiragram](http://twitter.com/hiragram) / y@yura.me
+
+Japanese and English are welcome.
 
 ## License
 
