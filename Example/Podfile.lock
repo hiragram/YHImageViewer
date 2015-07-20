@@ -1,0 +1,14 @@
+PODS:
+  - YHImageViewer (0.1.0)
+
+DEPENDENCIES:
+  - YHImageViewer (from `../`)
+
+EXTERNAL SOURCES:
+  YHImageViewer:
+    :path: ../
+
+SPEC CHECKSUMS:
+  YHImageViewer: 3f6fc795b26d9e680c2dce37488c2c53c6bc625f
+
+COCOAPODS: 0.36.0

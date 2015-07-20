@@ -1,0 +1,6 @@
+framework module YHImageViewer {
+  umbrella header "Pods-YHImageViewer_Tests-YHImageViewer-umbrella.h"
+
+  export *
+  module * { export * }
+}
