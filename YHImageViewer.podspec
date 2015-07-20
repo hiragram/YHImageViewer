@@ -13,6 +13,7 @@ Pod::Spec.new do |s|
   s.summary          = "Simple fullscreen image preview."
   s.description      = <<-DESC
                        Simple fullscreen image preview.
+                       Pull request and Issue are welcome :)
                        DESC
   s.homepage         = "https://github.com/hiragram/YHImageViewer"
   # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
