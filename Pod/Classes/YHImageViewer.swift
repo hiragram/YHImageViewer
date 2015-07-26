@@ -85,6 +85,8 @@ public class YHImageViewer: NSObject {
                 self.imageView.frame.size = CGSizeMake(width, height)
                 self.imageView.center = self.window.center
                 }) { (_) -> Void in
+                    self.imageView.bounds.size = self.imageView.frame.size
+                    self.imageView.transform = CGAffineTransformMakeScale(1, 1)
             }
         }
     }
@@ -101,7 +103,7 @@ public class YHImageViewer: NSObject {
             // Move target view
             if let targetView = recognizer.view {
                 let variation = recognizer.translationInView(targetView)
-                targetView.center = CGPointMake(targetView.center.x + variation.x, targetView.center.y + variation.y)
+                targetView.center = CGPointMake(targetView.center.x + variation.x * targetView.transform.a, targetView.center.y + variation.y * targetView.transform.a)
                 
                 let velocity = recognizer.velocityInView(targetView)
             }
@@ -123,6 +125,8 @@ public class YHImageViewer: NSObject {
                     }, completion: { (_) -> Void in
                         self.close()
                     })
+                } else if targetView.transform.a > 1.0 {
+                    // do nothing
                 } else {
                     self.moveImageToCenter()
                 }
