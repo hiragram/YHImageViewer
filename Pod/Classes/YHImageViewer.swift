@@ -58,10 +58,15 @@ public class YHImageViewer: NSObject {
         self.backgroundView.addSubview(imageView)
         
         
-        // Initialize gesture recognizer
+        // Initialize drag gesture recognizer
         let imageDragRecognizer = UIPanGestureRecognizer(target: self, action: Selector("imageDragged:"))
         self.imageView.userInteractionEnabled = true
         self.imageView.addGestureRecognizer(imageDragRecognizer)
+        
+        // Initialize pinch gesture recognizer
+        let imagePinchRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("imagePinched:"))
+        self.imageView.userInteractionEnabled = true
+        self.imageView.addGestureRecognizer(imagePinchRecognizer)
         
         
         // Start animation
@@ -121,6 +126,25 @@ public class YHImageViewer: NSObject {
                 } else {
                     self.moveImageToCenter()
                 }
+            }
+        default:
+            _ = 0
+        }
+    }
+    
+    func imagePinched(recognizer:UIPinchGestureRecognizer) {
+        let targetView = recognizer.view!
+        let scale = recognizer.scale
+        let velocity = recognizer.velocity
+        let point = recognizer.locationInView(targetView)
+        switch (recognizer.state) {
+        case .Changed:
+            let transform = targetView.transform.a
+            targetView.transform = CGAffineTransformMakeScale(scale, scale)
+        case .Ended , .Cancelled :
+            if scale < 1.0 {
+                self.moveImageToCenter()
+            } else {
             }
         default:
             _ = 0
