@@ -58,10 +58,15 @@ public class YHImageViewer: NSObject {
         self.backgroundView.addSubview(imageView)
         
         
-        // Initialize gesture recognizer
+        // Initialize drag gesture recognizer
         let imageDragRecognizer = UIPanGestureRecognizer(target: self, action: Selector("imageDragged:"))
         self.imageView.userInteractionEnabled = true
         self.imageView.addGestureRecognizer(imageDragRecognizer)
+        
+        // Initialize pinch gesture recognizer
+        let imagePinchRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("imagePinched:"))
+        self.imageView.userInteractionEnabled = true
+        self.imageView.addGestureRecognizer(imagePinchRecognizer)
         
         
         // Start animation
@@ -80,6 +85,7 @@ public class YHImageViewer: NSObject {
                 self.imageView.frame.size = CGSizeMake(width, height)
                 self.imageView.center = self.window.center
                 }) { (_) -> Void in
+                    self.adjustBoundsAndTransform(self.imageView)
             }
         }
     }
@@ -88,6 +94,7 @@ public class YHImageViewer: NSObject {
         self.moveToFirstFrame { () -> Void in
             self.close()
         }
+//        self.debug()
     }
     
     func imageDragged(recognizer:UIPanGestureRecognizer) {
@@ -96,7 +103,7 @@ public class YHImageViewer: NSObject {
             // Move target view
             if let targetView = recognizer.view {
                 let variation = recognizer.translationInView(targetView)
-                targetView.center = CGPointMake(targetView.center.x + variation.x, targetView.center.y + variation.y)
+                targetView.center = CGPointMake(targetView.center.x + variation.x * targetView.transform.a, targetView.center.y + variation.y * targetView.transform.a)
                 
                 let velocity = recognizer.velocityInView(targetView)
             }
@@ -119,12 +126,32 @@ public class YHImageViewer: NSObject {
                         self.close()
                     })
                 } else {
-                    self.moveImageToCenter()
+                    self.adjustImageViewFrame()
                 }
             }
         default:
             _ = 0
         }
+        self.debug()
+    }
+    
+    func imagePinched(recognizer:UIPinchGestureRecognizer) {
+        let targetView = recognizer.view!
+        let scale = recognizer.scale
+        let velocity = recognizer.velocity
+        let point = recognizer.locationInView(targetView)
+        switch (recognizer.state) {
+        case .Changed:
+            let transform = targetView.transform.a
+            targetView.transform = CGAffineTransformMakeScale(scale, scale)
+        case .Ended , .Cancelled:
+            let center = targetView.center
+            self.adjustBoundsAndTransform(targetView)
+            self.adjustImageViewFrame()
+        default:
+            _ = 0
+        }
+        self.debug()
     }
     
     func close() {
@@ -140,6 +167,65 @@ public class YHImageViewer: NSObject {
             self.imageView.frame = self.startFrame
             }) { (_) -> Void in
                 completion()
+        }
+    }
+    
+    func debug() {
+//        println("frame: \(self.imageView.frame) bounds: \(self.imageView.bounds) center: \(self.imageView.center) transform: \(self.imageView.transform.a)")
+    }
+    
+    func adjustBoundsAndTransform(view: UIView) {
+        let center = view.center
+        let scale = view.transform.a
+        view.bounds.size = CGSizeMake(view.bounds.size.width * scale, view.bounds.size.height * scale)
+        view.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        view.center = center
+    }
+    
+    func isImageSmallerThanScreen() -> Bool {
+        let imageWidth = self.imageView.frame.size.width
+        let imageHeight = self.imageView.frame.size.height
+        let screenWidth = self.window.bounds.size.width
+        let screenHeight = self.window.bounds.size.height
+        
+        return imageWidth <= screenWidth && imageHeight <= screenHeight
+    }
+    
+    func adjustImageViewFrame() {
+        if self.isImageSmallerThanScreen() {
+            self.moveImageToCenter()
+            return
+        }
+        
+        let targetView = self.imageView
+        
+        var originX:CGFloat = targetView.frame.origin.x
+        var originY:CGFloat = targetView.frame.origin.y
+        var animateX = true
+        var animateY = true
+        if (targetView.frame.origin.x > 0) {
+            originX = 0
+        } else if (targetView.frame.origin.x < self.window.bounds.width - targetView.bounds.size.width) {
+            originX = self.window.bounds.width - targetView.bounds.size.width
+        }else {
+            animateX = false
+        }
+        if (targetView.bounds.size.height < self.window.bounds.size.height) {
+            originY = (self.window.bounds.size.height - targetView.bounds.size.height)/2
+        } else if targetView.frame.origin.y > 0{
+            originY = 0
+        } else if targetView.frame.origin.y + targetView.bounds.size.height < self.window.bounds.height {
+            originY = self.window.bounds.size.height - targetView.bounds.size.height
+        }
+        else {
+            animateY = false
+        }
+        if animateX || animateY {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                targetView.frame = CGRectMake(originX, originY, targetView.bounds.size.width, targetView.bounds.size.height)
+                }, completion: { (_) -> Void in
+                    
+            })
         }
     }
 }
