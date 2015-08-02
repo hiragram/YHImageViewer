@@ -9,7 +9,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "YHImageViewer"
-  s.version          = "0.2.0"
+  s.version          = "0.2.1"
   s.summary          = "Simple fullscreen image preview."
   s.description      = <<-DESC
                        Simple fullscreen image preview.
