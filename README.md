@@ -14,6 +14,15 @@ Issues and PRs are welcome :)
 
 ![Screenshot](https://raw.githubusercontent.com/wiki/hiragram/YHImageViewer/images/screenshot.gif)
 
+## Installation
+
+YHImageViewer is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "YHImageViewer"
+```
+
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
@@ -32,14 +41,8 @@ func imageTapped(recognizer:UITapGestureRecognizer) {
 }
 ```
 
-## Installation
 
-YHImageViewer is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
 
-```ruby
-pod "YHImageViewer"
-```
 
 ## Author
 
