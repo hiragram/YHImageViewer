@@ -41,8 +41,19 @@ func imageTapped(recognizer:UITapGestureRecognizer) {
 }
 ```
 
+## Roadmaps
 
+Some features under development can be seen in [issues](./issues) or [milestones](./milestones).
 
+### v0.3 release
+
+includes:
+
+- [ ] Blurry background
+- [ ] Custom view on background / foreground
+- [ ] Manager class
+- [ ] Drag animation with physics
+- [ ] Some refactoring
 
 ## Author
 
