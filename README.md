@@ -43,7 +43,7 @@ func imageTapped(recognizer:UITapGestureRecognizer) {
 
 ## Roadmaps
 
-Some features under development can be seen in [issues](./issues) or [milestones](./milestones).
+Some features under development can be seen in [issues](https://github.com/hiragram/YHImageViewer/issues) or [milestones](https://github.com/hiragram/YHImageViewer/milestones).
 
 ### v0.3 release
 
