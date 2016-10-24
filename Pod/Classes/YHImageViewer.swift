@@ -14,6 +14,7 @@ public class YHImageViewer: NSObject {
     private var backgroundView:UIView!
     private var imageView:UIImageView!
     private var startFrame:CGRect!
+    private var completion:(()->Void)!
     
     public var backgroundColor:UIColor?
     public var fadeAnimationDuration:NSTimeInterval = 0.15
@@ -75,6 +76,11 @@ public class YHImageViewer: NSObject {
             }) { (_) -> Void in
                 self.moveImageToCenter()
         }
+    }
+    
+    public func show(targetImageView:UIImageView, completion: () -> Void) {
+        self.completion = completion
+        self.show(targetImageView)
     }
     
     func moveImageToCenter() {
@@ -159,6 +165,9 @@ public class YHImageViewer: NSObject {
             self.backgroundView.alpha = 0
             }) { (_) -> Void in
                 self.window = nil
+        }
+        if var completionFunction = self.completion {
+            completion()
         }
     }
 
